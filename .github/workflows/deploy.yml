@@ -31,11 +31,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
 
       # 5. Cài thư viện frontend
       - name: Install NPM dependencies
-        run: npm ci
+        run: npm install
 
       # 6. Build Vite
       - name: Build frontend
