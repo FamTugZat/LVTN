@@ -116,14 +116,41 @@
             border:1px dashed #d1d5db;
         }
 
-        .nut-hanh-dong{
-            display:inline-block;
+        .nhom-nut{
+            display:flex;
+            align-items:center;
+            gap:8px;
+        }
+
+        .nut-sua,
+        .nut-xoa{
+            border:none;
             text-decoration:none;
-            background:#e0f2fe;
-            color:#0369a1;
             padding:8px 14px;
             border-radius:10px;
             font-weight:600;
+            cursor:pointer;
+            font-size:14px;
+        }
+
+        /* Nút sửa */
+        .nut-sua{
+            background:#e0f2fe;
+            color:#0369a1;
+        }
+
+        .nut-sua:hover{
+            background:#bae6fd;
+        }
+
+        /* Nút xóa */
+        .nut-xoa{
+            background:#fee2e2;
+            color:#dc2626;
+        }
+
+        .nut-xoa:hover{
+            background:#fecaca;
         }
 
         @media (max-width: 768px) {
@@ -185,9 +212,26 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('nguoidung.edit', $nd->id) }}" class="nut-hanh-dong">
-                                        Sửa
-                                    </a>
+                                    <div class="nhom-nut">
+
+                                        {{-- Nút sửa --}}
+                                        <a href="{{ route('nguoidung.edit', $nd->id) }}" class="nut-sua">
+                                            Sửa
+                                        </a>
+
+                                        {{-- Nút xóa --}}
+                                        <form action="{{ route('nguoidung.destroy', $nd->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?')">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="nut-xoa">
+                                                Xóa
+                                            </button>
+                                        </form>
+
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
