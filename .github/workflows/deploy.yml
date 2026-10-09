@@ -1,3 +1,4 @@
+
 name: Deploy Laravel to P.A Vietnam
 
 on:
@@ -14,7 +15,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Cài PHP 8.4
+      # 2. Kiểm tra kết nối FTP từ GitHub Actions
+      - name: Test FTP connection
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        run: |
+          python - <<'PY'
+          import os
+          import socket
+
+          host = os.environ["FTP_SERVER"]
+          try:
+              with socket.create_connection((host, 21), timeout=10):
+                  print("FTP port 21 is reachable from GitHub Actions.")
+          except Exception as e:
+              print(f"FTP connection failed: {type(e).__name__}: {e}")
+              raise
+          PY
+
+      # 3. Cài PHP 8.4
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
